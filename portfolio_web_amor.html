@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Amor Sin Fronteras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="40" cy="70" r="1" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.6;0.1" dur="2s" repeatCount="indefinite"/></circle></svg>');
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .distance-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+            min-height: 100vh;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding: 0 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: calc(50% + 2rem);
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: calc(50% + 2rem);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #667eea;
+        }
+
+        .timeline-content {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-item {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        /* Messages */
+        .message-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 30px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #667eea;
+        }
+
+        /* Statistics */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Countdown */
+        .countdown {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .countdown-unit {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 3rem;
+                padding-right: 1rem;
+            }
+            
+            .timeline::before {
+                left: 1rem;
+            }
+            
+            .timeline-dot {
+                left: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+
+        /* Heart Animation */
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a onclick="showSection('hero')">Inicio</a></li>
+                    <li><a onclick="showSection('historia')">Nuestra Historia</a></li>
+                    <li><a onclick="showSection('momentos')">Momentos</a></li>
+                    <li><a onclick="showSection('comunicacion')">Comunicación</a></li>
+                    <li><a onclick="showSection('futuro')">Nuestro Futuro</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero section active">
+        <div class="hero-content">
+            <h1 class="floating">Nuestro Amor Sin Fronteras</h1>
+            <p>Dos corazones, un solo amor <span class="heart">♥</span></p>
+            <div class="distance-info">
+                <strong>📍 [Tu Ciudad] ↔ [Su Ciudad]</strong><br>
+                <span id="distance">0</span> km de distancia • <span id="days-together">0</span> días juntos
+            </div>
+        </div>
+    </section>
+
+    <section id="historia" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2>Nuestra Historia de Amor</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>💫 Primer Encuentro</h3>
+                            <p><strong>Fecha:</strong> [Fecha]</p>
+                            <p>Así fue como nuestros caminos se cruzaron por primera vez. Desde ese momento, algo especial comenzó a florecer entre nosotros...</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>💌 Primer Mensaje</h3>
+                            <p><strong>Fecha:</strong> [Fecha]</p>
+                            <p>El primer mensaje que cambió todo. Esas primeras palabras que nos conectaron a través de las pantallas y los kilómetros.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>📹 Primera Videollamada</h3>
+                            <p><strong>Fecha:</strong> [Fecha]</p>
+                            <p>La primera vez que vimos nuestras sonrisas en tiempo real. Esos nervios y esa emoción que nunca olvidaremos.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>❤️ Oficialmente Juntos</h3>
+                            <p><strong>Fecha:</strong> [Fecha]</p>
+                            <p>El día que decidimos que la distancia no importaba. Nos comprometimos a hacer que funcionara, sin importar los obstáculos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="momentos" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2>Nuestros Momentos Especiales</h2>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="mensajes">15,847</div>
+                        <div>Mensajes enviados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="llamadas">2,456</div>
+                        <div>Horas de llamadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="peliculas">127</div>
+                        <div>Películas juntos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="fotos">892</div>
+                        <div>Fotos compartidas</div>
+                    </div>
+                </div>
+
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <div class="gallery-item img">📱</div>
+                        <h3>Nuestras Videollamadas</h3>
+                        <p>Cada llamada es un pequeño encuentro que nos acerca más</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">🎬</div>
+                        <h3>Noches de Película</h3>
+                        <p>Viendo películas juntos desde diferentes continentes</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">🌅</div>
+                        <h3>Mismos Atardeceres</h3>
+                        <p>Compartiendo el mismo cielo desde lugares distintos</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">🎮</div>
+                        <h3>Jugando Juntos</h3>
+                        <p>Los videojuegos que nos mantienen conectados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comunicacion" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2>Nuestra Comunicación</h2>
+                
+                <div class="message-box">
+                    <h3>💕 Mensaje del Corazón</h3>
+                    <p>"Cada día que pasa, me doy cuenta de que el amor verdadero no conoce fronteras. A pesar de los kilómetros que nos separan, siento que estás más cerca de mí que nunca. Eres mi hogar, sin importar dónde estés."</p>
+                    <small>- Con todo mi amor</small>
+                </div>
+
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <div class="gallery-item img">⏰</div>
+                        <h3>Rutina Diaria</h3>
+                        <p><strong>Buenos días:</strong> 7:00 AM<br>
+                        <strong>Almuerzo juntos:</strong> 1:00 PM<br>
+                        <strong>Buenas noches:</strong> 11:00 PM</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">📱</div>
+                        <h3>Nuestras Apps</h3>
+                        <p>WhatsApp, Discord, Zoom<br>
+                        Siempre conectados de alguna manera</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">🌍</div>
+                        <h3>Diferencia Horaria</h3>
+                        <p>+/- X horas nos separan<br>
+                        Pero siempre encontramos tiempo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="futuro" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2>Nuestro Futuro Juntos</h2>
+                
+                <div class="countdown">
+                    <h3>🎉 Próximo Encuentro</h3>
+                    <div class="countdown-timer">
+                        <div class="countdown-unit">
+                            <span class="countdown-number" id="countdown-days">00</span>
+                            <span>Días</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-number" id="countdown-hours">00</span>
+                            <span>Horas</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-number" id="countdown-minutes">00</span>
+                            <span>Minutos</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-number" id="countdown-seconds">00</span>
+                            <span>Segundos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <div class="gallery-item img">✈️</div>
+                        <h3>Nuestros Viajes</h3>
+                        <p>Lugares que visitaremos juntos:<br>
+                        París, Tokio, Nueva York...</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">🏠</div>
+                        <h3>Nuestro Hogar</h3>
+                        <p>El lugar donde construiremos<br>
+                        nuestros sueños juntos</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-item img">💍</div>
+                        <h3>Para Siempre</h3>
+                        <p>Porque este amor está hecho<br>
+                        para durar toda la vida</p>
+                    </div>
+                </div>
+
+                <div class="message-box">
+                    <h3>💕 Nuestra Promesa</h3>
+                    <p>"Prometemos que no importa cuán difícil se ponga el camino, cuántos kilómetros nos separen o cuántos obstáculos enfrentemos. Nuestro amor es más fuerte que la distancia, más duradero que el tiempo, y más profundo que cualquier océano que nos separe."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Animación de números
+        function animateNumbers() {
+            const distance = Math.floor(Math.random() * 8000) + 2000; // Distancia aleatoria
+            const days = Math.floor((new Date() - new Date('2023-01-01')) / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('distance').textContent = distance.toLocaleString();
+            document.getElementById('days-together').textContent = days;
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            // Fecha objetivo (puedes cambiar esta fecha)
+            const targetDate = new Date('2025-12-31T00:00:00').getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            animateNumbers();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+
+        // Smooth scrolling para navegación
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
